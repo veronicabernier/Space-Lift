@@ -9,6 +9,7 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] float fallingSpeed = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +51,7 @@ public class Rocket : MonoBehaviour
         else
         {
             audioSource.Stop();
+            rigidBody.AddForce(Vector3.down * fallingSpeed * Time.deltaTime);
         }
     }
 
