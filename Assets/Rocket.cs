@@ -7,6 +7,9 @@ public class Rocket : MonoBehaviour
     Rigidbody rigidBody;
     AudioSource audioSource;
 
+    [SerializeField] float rcsThrust = 100f;
+    [SerializeField] float mainThrust = 100f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,13 +20,29 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessInput(); 
+        Thrust();
+        Rotate(); 
     }
 
-    private void ProcessInput() {
-        if(Input.GetKey(KeyCode.Space)) {
-            rigidBody.AddRelativeForce(Vector3.up);
-            if(!audioSource.isPlaying || Input.GetKeyDown(KeyCode.Space))
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch(collision.gameObject.tag)
+        {
+            case "Friendly":
+                print("OK"); //todo remove
+                break;
+            default:
+                print("dead.");
+                break;
+        }
+    }
+
+    private void Thrust()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            rigidBody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
+            if (!audioSource.isPlaying || Input.GetKeyDown(KeyCode.Space))
             {
                 audioSource.Play();
             }
@@ -32,11 +51,22 @@ public class Rocket : MonoBehaviour
         {
             audioSource.Stop();
         }
-        if(Input.GetKey(KeyCode.A)) {
-            transform.Rotate(Vector3.forward);
-        }
-        else if(Input.GetKey(KeyCode.D)) {
-            transform.Rotate(-Vector3.forward);
-        }
     }
+
+    private void Rotate()
+    {
+        rigidBody.freezeRotation = true; //take manual control of rotation
+        
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(Vector3.forward * rcsThrust * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {   
+            transform.Rotate(-Vector3.forward * rcsThrust * Time.deltaTime);
+        }
+        rigidBody.freezeRotation = false; //resume physic's control on rotation
+    }
+
 }
