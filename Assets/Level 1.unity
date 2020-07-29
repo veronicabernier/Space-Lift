@@ -789,7 +789,7 @@ PrefabInstance:
     - target: {fileID: 5155846449237821904, guid: c431acc89dfae4d4d8b173e26de0eeff,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.65505
+      value: 1.655
       objectReference: {fileID: 0}
     - target: {fileID: 5155846449237821904, guid: c431acc89dfae4d4d8b173e26de0eeff,
         type: 3}
@@ -835,34 +835,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444482, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444482, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444482, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: m_AngularDrag
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444482, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: m_Drag
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444484, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: rcsThrust
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444484, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: mainThrust
-      value: 1500
-      objectReference: {fileID: 0}
-    - target: {fileID: 1850444484, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
-      propertyPath: fallingSpeed
-      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c431acc89dfae4d4d8b173e26de0eeff, type: 3}
