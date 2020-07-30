@@ -4,7 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
+
 {
+    //debug
+    bool collisionsDisabled = false;
+
     Rigidbody rigidBody;
     AudioSource audioSource;
 
@@ -33,55 +37,27 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == State.Alive) { 
+        if (state == State.Alive)
+        {
             RespondToThrustInput();
             RespondToRotateInput();
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(state != State.Alive) { return; }
-
-        switch(collision.gameObject.tag)
+        if(Debug.isDebugBuild)
         {
-            case "Friendly":
-                //nothing happens
-                break;
-            case "Finish":
-                StartSuccessSequence();
-                break;
-            default:
-                StartDeathSequence();
-                break;
+            RespondToDebugKeys();
         }
     }
 
-    private void StartSuccessSequence()
+    private void RespondToDebugKeys()
     {
-        audioSource.Stop();
-        state = State.Transcending;
-        audioSource.PlayOneShot(success);
-        successParticles.Play();
-        Invoke("LoadNextLevel", levelLoadDelay); //todo parametise time
-    }
-
-    private void StartDeathSequence()
-    {
-        audioSource.Stop();
-        state = State.Dying;
-        audioSource.PlayOneShot(death);
-        deathParticles.Play();
-        Invoke("LoadFirstLevel", levelLoadDelay);
-    }
-    private void LoadNextLevel()
-    {
-        SceneManager.LoadScene(1);
-    }
-
-    private void LoadFirstLevel()
-    {
-        SceneManager.LoadScene(0);
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            collisionsDisabled = !collisionsDisabled;
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartSuccessSequence();
+        }
     }
 
     private void RespondToThrustInput()
@@ -111,16 +87,61 @@ public class Rocket : MonoBehaviour
     private void RespondToRotateInput()
     {
         rigidBody.freezeRotation = true; //take manual control of rotation
-        
+
         if (Input.GetKey(KeyCode.A))
         {
             transform.Rotate(Vector3.forward * rcsThrust * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.D))
-        {   
+        {
             transform.Rotate(-Vector3.forward * rcsThrust * Time.deltaTime);
         }
         rigidBody.freezeRotation = false; //resume physic's control on rotation
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if((state != State.Alive) || collisionsDisabled) { return; }
+
+        switch(collision.gameObject.tag)
+        {
+            case "Friendly":
+                //nothing happens
+                break;
+            case "Finish":
+                StartSuccessSequence();
+                break;
+            default:
+                StartDeathSequence();
+                break;
+        }
+    }
+
+    private void StartSuccessSequence()
+    {
+        audioSource.Stop();
+        state = State.Transcending;
+        audioSource.PlayOneShot(success);
+        successParticles.Play();
+        Invoke("LoadNextLevel", levelLoadDelay);
+    }
+
+    private void StartDeathSequence()
+    {
+        audioSource.Stop();
+        state = State.Dying;
+        audioSource.PlayOneShot(death);
+        deathParticles.Play();
+        Invoke("LoadFirstLevel", levelLoadDelay);
+    }
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }
